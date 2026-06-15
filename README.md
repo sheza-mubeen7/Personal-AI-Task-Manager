@@ -1,4 +1,4 @@
-✨ Personal AI Task Manager
+✨ **Personal AI Task Manager**
 
 A high-end, interactive, and visually stunning Task Management interface built with a modern glassmorphic aesthetic. This project transforms a standard utility application into a futuristic, ambient-lit control center suitable for tracking advanced AI workflows and agentic tasks.
 
