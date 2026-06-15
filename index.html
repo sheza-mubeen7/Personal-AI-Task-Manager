@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Manager - Glassmorphism</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        /* Smooth Animated Gradient Background */
+        body {
+            background: linear-gradient(-45deg, #0f172a, #1e1b4b, #311042, #020617);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            min-height: 100vh;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Core Glassmorphism Styling */
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        }
+
+        /* Glassmorphic Input Fields */
+        .glass-input {
+            background: rgba(255, 255, 255, 0.07);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(4px);
+            color: #ffffff;
+            transition: all 0.3s ease;
+        }
+
+        .glass-input:focus {
+            background: rgba(255, 255, 255, 0.12);
+            border-color: #f97316; /* Orange Glow */
+            box-shadow: 0 0 15px rgba(249, 115, 22, 0.4);
+            outline: none;
+        }
+
+        /* Task Cards Layout */
+        .task-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .task-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(255, 255, 255, 0.25);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+        }
+
+        /* When Dynamic Task is completed (for app.js logic) */
+        .task-card.completed {
+            background: rgba(16, 185, 129, 0.1) !important; /* Translucent Green */
+            border-color: rgba(16, 185, 129, 0.4) !important;
+        }
+    </style>
+</head>
+<body class="font-sans text-slate-100 selection:bg-orange-500/30">
+
+    <div class="fixed top-[-10%] left-[-10%] w-[50vw] h-[50vw] bg-purple-600/20 rounded-full blur-[120px] pointer-events-none"></div>
+    <div class="fixed bottom-[-10%] right-[-10%] w-[50vw] h-[50vw] bg-orange-600/10 rounded-full blur-[120px] pointer-events-none"></div>
+
+    <div class="container mx-auto p-4 md:p-8 relative z-10">
+        <header class="text-center mb-12">
+            <h1 class="text-4xl md:text-6xl font-extrabold tracking-wider bg-clip-text text-transparent bg-gradient-to-r from-white via-slate-200 to-orange-400 drop-shadow-sm">
+                Task Manager
+            </h1>
+            <p class="text-slate-400 mt-2 text-sm md:text-base tracking-wide font-light">Your Personal Agentic Workflow Assistant</p>
+        </header>
+
+        <main>
+            <div class="max-w-xl mx-auto glass-panel p-6 md:p-8 rounded-2xl mb-12 transform transition-all duration-300">
+                <h2 class="text-2xl font-semibold mb-6 text-white flex items-center gap-2">
+                    <i class="fas fa-plus-circle text-orange-500"></i> Add a New Task
+                </h2>
+                <form id="task-form" class="space-y-5">
+                    <div>
+                        <label for="title" class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1">Title</label>
+                        <input type="text" id="title" name="title" class="glass-input mt-1 block w-full rounded-xl py-2.5 px-4 text-sm" placeholder="What needs to be done?" required>
+                    </div>
+                    <div>
+                        <label for="description" class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1">Description</label>
+                        <textarea id="description" name="description" rows="3" class="glass-input mt-1 block w-full rounded-xl py-2.5 px-4 text-sm" placeholder="Add some context details..." required></textarea>
+                    </div>
+                    <div>
+                        <label for="due-date" class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1">Due Date</label>
+                        <input type="date" id="due-date" name="due-date" class="glass-input mt-1 block w-full rounded-xl py-2.5 px-4 text-sm" required>
+                    </div>
+                    <div class="text-right pt-2">
+                        <button type="submit" class="w-full sm:w-auto inline-flex justify-center items-center gap-2 py-2.5 px-6 font-medium rounded-xl text-white bg-gradient-to-r from-orange-500 to-amber-600 hover:from-orange-600 hover:to-amber-700 shadow-lg shadow-orange-500/20 hover:shadow-orange-600/30 transition-all duration-200 transform active:scale-[0.98]">
+                            <i class="fas fa-paper-plane text-xs"></i> Add Task
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <div id="task-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+                </div>
+        </main>
+    </div>
+
+    <footer class="text-center py-8 text-slate-500 text-xs tracking-wider relative z-10">
+        <p>&copy; 2026 Gemini CLI | Built with Tech-Aesthetic</p>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>
